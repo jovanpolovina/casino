@@ -1,5 +1,8 @@
 package casino;
 
+import java.util.Scanner;
+
+
 
 abstract class osoba{
     String ime;
@@ -37,6 +40,9 @@ abstract class igra {
         this.nagrada = nagrada;
         this.o = o;
     }
+    public Boolean ishod(){
+        return true;
+    }
     int getUnos() {return unos;}
 void setUnos(int unos){this.unos = unos;}
 int getNagrada() {return nagrada;}
@@ -62,8 +68,18 @@ void setKarta(int karta){this.karta = karta;}
 int getTokeni() {return tokeni;}
 void setTokeni(int tokeni){this.tokeni = tokeni;}
 @Override
+public Boolean ishod(){
+    Scanner sc = new Scanner(System.in);
+    int k;
+    k = sc.nextInt();
+    sc.close();
+if(this.karta>k)
+return true;
+else
+return false; 
+}
+@Override
 public String toString() {
-    // TODO Auto-generated method stub
     return super.toString() + "Karta: "+ this.karta + "Token: " + this.tokeni;
 }
 }
@@ -79,6 +95,19 @@ public Rulet(int broj, boja b, int unos, int nagrada, osoba o){
     this.broj = broj;
 }
 @Override
+public Boolean ishod() {
+    Scanner scanner = new Scanner(System.in);
+    int broj = scanner.nextInt();
+    boja b = boja.valueOf(scanner.next());
+    scanner.close();
+    if(broj == this.broj && b == this.b)
+    return true;
+    else
+    return false;
+    
+
+}
+@Override
 public String toString() {
     return super.toString() + "Broj: "+this.broj + "Boja: "+ this.b;
 }
@@ -92,6 +121,15 @@ class vockice extends igra{
         super(unos, nagrada, o);
         this.v = v;
         
+    }
+    @Override
+    public Boolean ishod() {
+        Scanner scanner = new Scanner(System.in);
+        vocke s = vocke.valueOf(scanner.next());
+        scanner.close();
+        if(this.v == s)
+        return true;
+    return false;
     }
   @Override
   public String toString() {
@@ -142,4 +180,23 @@ class sekjuriti extends osoba{
     public String toString() {
         return super.toString() + "Tip sekjuritija: " + this.sekjuriti;
     }
+}
+
+public class casino{
+
+    public static void main(String[] args) throws Exception {
+igrac i = new igrac("Jovan", "Polovina", 19, tipIgraca.pokerman);
+Poker p = new Poker(15, 2, 1000, 1000*2, i);
+if(p.ishod()){
+    System.out.println("Cestitamo osvojili ste "+ p.getNagrada() + "evra");
+    }
+    else{
+        System.out.println("GAME OVER");
+
+    }
+
+        
+        }
+
+
 }
